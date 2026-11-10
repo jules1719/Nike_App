@@ -1,9 +1,9 @@
 // Offline support: cache the app shell, network-first for everything else.
-const CACHE = 'nsf-v2';
+const CACHE = 'nsf-v3';
 const SHELL = [
-  './', './index.html', './css/app.css',
-  './js/app.js', './js/util.js', './js/data.js', './js/foot3d.js', './js/scan.js', './js/video.js', './js/ui.js',
-  './vendor/three.module.min.js', './assets/shoe.jpg', './assets/shoe-ar.png', './assets/icon-192.png', './assets/icon-512.png',
+  './', './index.html', './app.css',
+  './app.js', './util.js', './data.js', './foot3d.js', './scan.js', './video.js', './ui.js',
+  './three.module.min.js', './shoe.jpg', './shoe-ar.png', './icon-192.png', './icon-512.png',
   './manifest.webmanifest'
 ];
 self.addEventListener('install', e => {

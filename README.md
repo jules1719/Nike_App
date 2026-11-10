@@ -7,19 +7,13 @@ Studentischer Prototyp. Keine Verbindung zu Nike oder Strava. Es wird nichts bes
 
 ## Inhalt
 
+Alle Dateien liegen in **einem** Ordner (keine Unterordner), damit der Upload über die GitHub-Weboberfläche funktioniert.
+
 ```
-index.html              App-Hülle, statisches Netlify-Formular "survey"
-css/app.css             Design (dunkel, Volt-Akzent #D4FF00, Inter)
-js/app.js               Ablauf, alle Screens, Testleiter-Modus
-js/data.js              "KI"-Logik: regelbasiert, mit dem Spitznamen als Seed
-js/scan.js              Simulierter LiDAR-Fußscan über dem Live-Kamerabild
-js/foot3d.js            Prozedurales 3D-Fußmodell + Viewer (three.js)
-js/video.js             Videoaufnahme + Pose-Analyse (MediaPipe, wird bei Bedarf geladen)
-js/ui.js                SVG/Canvas-Bausteine (Maße, Druckbild, Sohle, Gitter)
-vendor/three.module.min.js   three.js r160 (lokal, kein CDN nötig)
-assets/                 Schuhfoto (aus eurer Figma-Datei), App-Icons
-sw.js, manifest.webmanifest  PWA (installierbar, offline-fähig)
-netlify.toml            Header (noindex, Kamera-Berechtigung), kein Build-Schritt
+index.html, app.css, manifest.webmanifest, sw.js, netlify.toml
+app.js (Ablauf, Screens, Testleiter-Modus) · data.js ("KI"-Logik) · scan.js (simulierter Scan)
+foot3d.js (3D-Fuß) · video.js (Video + Pose) · ui.js (Grafiken) · util.js (Zustand, Sprache)
+three.module.min.js (three.js r160) · shoe.jpg · shoe-ar.png · icon-180/192/512.png
 ```
 
 Kein Build nötig: Es ist eine statische Seite mit nativen ES-Modulen.
@@ -29,7 +23,6 @@ Kein Build nötig: Es ist eine statische Seite mit nativen ES-Modulen.
 Die Kamera funktioniert nur über `https://` oder `http://localhost`.
 
 ```bash
-cd nsf
 python3 -m http.server 8080
 # Browser: http://localhost:8080
 ```
@@ -40,7 +33,7 @@ Zum Testen am Handy im gleichen WLAN braucht ihr HTTPS, also am einfachsten dire
 
 **Variante A, ohne Git (2 Minuten):**
 1. https://app.netlify.com/drop öffnen und einloggen.
-2. Den ganzen Ordner `nsf` (nicht die ZIP-Datei) ins Browserfenster ziehen.
+2. Den ganzen Ordner (nicht die ZIP-Datei) ins Browserfenster ziehen.
 3. Netlify zeigt die URL, z. B. `https://xyz.netlify.app`. Unter *Site configuration → Change site name* einen besseren Namen wählen.
 
 **Variante B, mit GitHub:** Ordner als Repository hochladen, in Netlify *Add new site → Import an existing project*,
