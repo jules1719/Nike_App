@@ -16,7 +16,7 @@ export function sizeLabel(eu) { return `EU ${round(eu * 2) / 2} · US ${sizeConv
 
 function bmi() { const p = state.profile; return p.weight / Math.pow(p.height / 100, 2); }
 function mainSurface() {
-  const s = state.imported?.surface || state.profile.surface;
+  const s = state.profile.surface;
   return Object.entries(s).sort((a, b) => b[1] - a[1])[0][0];
 }
 
@@ -80,7 +80,7 @@ export function generateActivities(source) {
 /* ---------- simulated running metrics (fallback when no real pose analysis) ---------- */
 export function simulatedRunMetrics() {
   const p = state.profile, r = rng(seed('gait'));
-  const pace = paceSec(state.imported?.avgPace || p.pace);
+  const pace = paceSec(p.pace);
   const cadence = Math.round(clamp(158 + (360 - pace) * 0.12 + (r() - 0.5) * 8, 150, 188));
   const strike = pace <= 285 ? (r() > 0.4 ? 'Midfoot strike' : 'Forefoot strike') : (r() > 0.25 ? 'Heel strike' : 'Midfoot strike');
   const knee = Math.round(158 + (r() - 0.5) * 12);
@@ -99,7 +99,7 @@ export function runMetrics() {
 export function analysis() {
   const p = state.profile, sc = scanValues(), rm = runMetrics();
   const b = bmi();
-  const weekly = state.imported ? state.imported.weeks.slice(-4).reduce((a, x) => a + x, 0) / 4 : p.weeklyKm;
+  const weekly = p.weeklyKm;   // v2: import writes into the profile, and the runner can still edit it
   const surface = mainSurface();
   const pref = (p.cushion - 50) / 50;             // -1 soft-lover ... +1 firm-lover
   const comfort = p.comfort || [];
@@ -117,7 +117,7 @@ export function analysis() {
   if (comfort.includes('knee') || comfort.includes('shin')) { heel += 4; why.push({ t: L('Smoother landing', 'Sanftere Landung'), d: L('You marked knee or shin. A smoother heel-to-toe transition reduces how abrupt each landing feels.', 'Du hast Knie oder Schienbein markiert. Ein weicherer Übergang von Ferse zu Zehen macht die Landung weniger abrupt.') }); }
   heel -= pref * 10; mid -= pref * 8; fore -= pref * 8;
   const outsole = { trail: L('Lugged rubber, 4 mm grip', 'Profilgummi, 4 mm Grip'), track: L('Light rubber, fast', 'Leichtes Gummi, schnell'), treadmill: L('Thin rubber, light', 'Dünnes Gummi, leicht'), road: L('Rubber waffle tread', 'Gummi mit Waffelprofil') }[surface];
-  why.push({ t: L('Outsole for your surface', 'Laufsohle für deinen Untergrund'), d: L(`Most of your running is on ${surfaceLabel(surface).toLowerCase()} (${(state.imported?.surface || p.surface)[surface]} %).`, `Du läufst überwiegend auf ${surfaceLabel(surface)} (${(state.imported?.surface || p.surface)[surface]} %).`) });
+  why.push({ t: L('Outsole for your surface', 'Laufsohle für deinen Untergrund'), d: L(`Most of your running is on ${surfaceLabel(surface).toLowerCase()} (${p.surface[surface]} %).`, `Du läufst überwiegend auf ${surfaceLabel(surface)} (${p.surface[surface]} %).`) });
   let drop = rm.strike === 'Heel strike' ? 10 : rm.strike === 'Forefoot strike' ? 6 : 8;
   if (p.drop !== 'auto') drop = +p.drop;
   const sources = 1 + (state.imported ? 1 : 0) + (state.video.mode === 'pose' ? 2 : state.video.mode === 'simulated' ? 1 : 0) + (state.scan.done ? 2 : 0) + (comfort.length ? 1 : 0) + (state.scan.insole ? 1 : 0);

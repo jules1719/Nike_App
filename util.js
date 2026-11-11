@@ -1,26 +1,28 @@
 // Shared state, storage, language, seeded random numbers and small helpers.
-const KEY = 'nsf_state_v1';
+const KEY = 'nsf_state_v2';
 
 export function defaults() {
   return {
     lang: 'en',
     consent: false,
     nickname: '',
-    screen: 'consent',
+    screen: 'landing',
     history: [],
     profile: {
       ageRange: '25-34', weight: 72, height: 178, shoeEU: 42, sizeSys: 'EU', width: 'normal',
       runsPerWeek: 3, weeklyKm: 25, longestRun: 15, pace: '5:45', goal: '10k', goalDate: '',
       surface: { road: 60, trail: 20, track: 5, treadmill: 15 },
-      cushion: 50, drop: 'auto', currentShoe: '', currentShoeKm: 400, comfort: []
+      cushion: 50, drop: 'auto', currentShoe: '', currentShoeKm: 400, comfort: [], age: '25-34'
     },
     imported: null,          // { source, activities, weeks, runs, avgPace, surface }
     video: { status: 'none', mode: null, metrics: null },   // mode: 'pose' | 'simulated'
     device: { camera: null, motion: null, webgl: null, lite: false },
     scan: { right: false, left: false, insole: false, done: false, skippedInsole: false },
     analysisSeen: false,
+    flags: { profile: false, design: false },
+    fitShown: 20,
     usecase: null,
-    design: { color: 'black', texture: 'Knit', hardness: 'medium', zones: null, lacing: 'standard', engraving: '', layer: 'Cushioning', touched: false },
+    design: { mode: null, color: 'black', texture: 'Knit', hardness: 'medium', zones: null, lacing: 'standard', engraving: '', layer: 'Cushioning', touched: false },
     shipping: { name: '', city: '' },
     order: null,
     review: { approved: false, questions: [] },
@@ -28,6 +30,7 @@ export function defaults() {
     overrides: {},           // facilitator overrides, e.g. { arch: 'Flat foot', strike: 'Heel strike', lenR: 26.4 }
     facilitator: { scanSource: 'camera', showTimer: false },
     survey: { submitted: false },
+    ar: { x: 0, y: 0, s: 1, r: -8, f: 1 },
     log: [],
     stepEnter: 0
   };

@@ -1,9 +1,9 @@
 // Offline support: cache the app shell, network-first for everything else.
-const CACHE = 'nsf-v3';
+const CACHE = 'nsf-v2-3';
 const SHELL = [
   './', './index.html', './app.css',
   './app.js', './util.js', './data.js', './foot3d.js', './scan.js', './video.js', './ui.js',
-  './three.module.min.js', './shoe.jpg', './shoe-ar.png', './icon-192.png', './icon-512.png',
+  './three.module.min.js', './shoe.jpg', './shoe-ar.png', './foot-iso.jpg', './foot-top.jpg', './foot-side.jpg', './foot-rear.jpg', './lace-classic.jpg', './lace-speed.jpg', './lace-elastic.jpg', './icon-192.png', './icon-512.png',
   './manifest.webmanifest'
 ];
 self.addEventListener('install', e => {

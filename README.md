@@ -1,4 +1,6 @@
-# Nike Shoe Fit – Test-Prototyp (MCI Design Sprint)
+# Nike Shoe Fit v2 – Test-Prototyp (MCI Design Sprint)
+
+Version 2 nach dem Feedback von Prof. Granig (Details in `CHANGELOG.md`). Version 1 bleibt unverändert im bisherigen Ordner bzw. Repo.
 
 Interaktiver Web-App-Prototyp für den Design Sprint in *Product & Innovation Management* (MCI Innsbruck).
 Sprint-Frage: *How can we use AI and additive manufacturing to find the perfect running shoe for your feet?*
@@ -14,6 +16,8 @@ index.html, app.css, manifest.webmanifest, sw.js, netlify.toml
 app.js (Ablauf, Screens, Testleiter-Modus) · data.js ("KI"-Logik) · scan.js (simulierter Scan)
 foot3d.js (3D-Fuß) · video.js (Video + Pose) · ui.js (Grafiken) · util.js (Zustand, Sprache)
 three.module.min.js (three.js r160) · shoe.jpg · shoe-ar.png · icon-180/192/512.png
+foot-iso/top/side/rear.jpg (Fußansichten im Scan-Ergebnis, vom Team erstellt)
+lace-classic/speed/elastic.jpg (Schnürungs-Vorschau im Design, vom Team erstellt)
 ```
 
 Kein Build nötig: Es ist eine statische Seite mit nativen ES-Modulen.
@@ -57,10 +61,11 @@ Dreimal schnell auf das **NS-Logo** oben links tippen. Dort könnt ihr:
 
 ## Ablauf für eure Testpersonen
 
-Consent → Profil (inkl. simuliertem Strava/Apple-Health-Import oder echtem GPX/TCX-Import) → Laufvideo →
-Gerätecheck → Fußscan (rechts, links, optional Einlegesohle) → KI-Analyse → Einsatzzweck → Design (Härteprofil,
-Zonen, Gitter, Farbe, Gravur) → AR-Anprobe (optional) → Kasse (Demo-Zahlung) → Experten- und KI-Prüfung mit
-„Go: start production“ → Produktions-Tracker → Umfrage → Aufklärung (Debriefing).
+Startseite → Einwilligung → **1 Profil** (Gewicht/Größe/Alter, Schuhgröße, Laufdaten verbinden: Strava- oder Apple-Health-Demo oder GPX/TCX; ohne Konto manuelle Fragen; Komfortkarte) →
+**2 Laufen** (Anleitung, Video, Kurzfazit) → **3 Scan** (Checkliste, rechts, links, optional Einlage, 3D-Ansichten) →
+**4 Analyse** → **5 Design** (Einsatz, Empfehlung oder Feintuning, Farbe/Details, optional AR) →
+**6 Bestellen** (Übersicht, Demo-Bestellung, letzter Check) → Produktions-Tracker → Umfrage (optional) → Aufklärung (Debriefing).
+Nach jedem der 6 Schritte kommt eine kurze Zwischenfolie, die nach ca. 5 Sekunden automatisch weitergeht.
 
 Für den Test braucht jede Person: ein Blatt A4-Papier, barfuß, gutes Licht, etwa 15 Minuten.
 
