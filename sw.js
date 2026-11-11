@@ -1,5 +1,5 @@
 // Offline support: cache the app shell, network-first for everything else.
-const CACHE = 'nsf-v2-3';
+const CACHE = 'nsf-v2-4';
 const SHELL = [
   './', './index.html', './app.css',
   './app.js', './util.js', './data.js', './foot3d.js', './scan.js', './video.js', './ui.js',

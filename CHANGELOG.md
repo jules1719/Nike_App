@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.3.0 – Nike Run Club, Video-Einwilligung, grüne Pain Points
+
+- **Laufdaten:** dritte Demo-Verbindung „Nike Run Club“ neben Strava und Apple Health (gleicher Ablauf: Freigabe, Synchronisierung, Übersicht). Badge „NRC“, kein Markenlogo.
+- **Laufvideo:** Vor „Jetzt aufnehmen“ und „Video hochladen“ muss ein Datenschutz-Häkchen gesetzt werden (Analyse nur auf dem Gerät, kein Upload, keine dauerhafte Speicherung). Ohne Häkchen sind beide Buttons gesperrt.
+- **Komfortkarte:** Angetippte Bereiche werden grün markiert und lassen sich durch erneutes Tippen wieder entfernen (Markierung war zuvor in der Grafik nicht sichtbar). Chips darunter ebenfalls grün.
+- **Offline-Cache:** Service-Worker-Version auf `nsf-v2-4` erhöht, damit Geräte die neue Version laden.
+
 ## 2.2.0 – Schnürung mit Vorschau
 
 - **Design → Schnürung:** Unter den drei Optionen (Klassisch, Schnell, Elastisch) gibt es ein aufklappbares Feld „Wie sieht das aus?“ mit Bild und kurzer Erklärung der gewählten Variante. Es öffnet sich automatisch, sobald man eine Option antippt, und lässt sich wieder zuklappen.

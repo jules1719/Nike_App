@@ -399,6 +399,7 @@ SCREENS.p_import = {
       <div class="stack">
         <button class="opt" data-act="connect" data-src="Strava"><span class="oi brand" style="background:#fc4c02">${ico('<path d="M10 3l-6 12h4l2-4 2 4h4z"/><path d="M14 15l-2 4-2-4"/>', 22)}</span><span class="ot"><b>${L('Connect Strava', 'Strava verbinden')}</b><span>${L('Demo connection, no login', 'Demo-Verbindung, kein Login')}</span></span><span class="ock">›</span></button>
         <button class="opt" data-act="connect" data-src="Apple Health"><span class="oi brand" style="background:#ff2d55">${ico('<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>', 22)}</span><span class="ot"><b>${L('Connect Apple Health', 'Apple Health verbinden')}</b><span>${L('Demo connection, no login', 'Demo-Verbindung, kein Login')}</span></span><span class="ock">›</span></button>
+        <button class="opt" data-act="connect" data-src="Nike Run Club"><span class="oi brand" style="background:#111;border:1px solid #3a3a40;font-weight:900;font-size:11px;letter-spacing:.5px">NRC</span><span class="ot"><b>${L('Connect Nike Run Club', 'Nike Run Club verbinden')}</b><span>${L('Demo connection, no login', 'Demo-Verbindung, kein Login')}</span></span><span class="ock">›</span></button>
         <label class="opt" style="cursor:pointer"><span class="oi">${ico('<path d="M12 16V4M7 9l5-5 5 5M4 20h16"/>', 22)}</span><span class="ot"><b>${L('Upload a GPX/TCX file', 'GPX/TCX-Datei hochladen')}</b><span>${L('From your watch or running app', 'Von deiner Uhr oder Lauf-App')}</span></span><span class="ock">›</span><input type="file" accept=".gpx,.tcx,application/gpx+xml,application/xml,text/xml" class="visually-hidden" id="gpx"></label></div>
       ${cta(imp ? contBtn() : `<button class="btn secondary" data-act="manual">${L('No account: enter it myself', 'Kein Konto: selbst eingeben')}</button>`)}`;
   },
@@ -460,7 +461,7 @@ function seedImportedProfile(src) {
   p.surface = { road: 100 - trail - tread - track, trail, track, treadmill: tread };
 }
 function startImport(src) {
-  openSheet(`<div class="row"><div class="logo" style="display:grid;place-items:center">NS</div><span style="font-size:22px;color:var(--muted)">⇄</span><div class="logo" style="display:grid;place-items:center;background:var(--surface-2);color:#fff;font-size:11px">${src === 'Strava' ? 'RUN' : '♡'}</div></div>
+  openSheet(`<div class="row"><div class="logo" style="display:grid;place-items:center">NS</div><span style="font-size:22px;color:var(--muted)">⇄</span><div class="logo" style="display:grid;place-items:center;background:var(--surface-2);color:#fff;font-size:11px">${src === 'Strava' ? 'RUN' : src === 'Nike Run Club' ? 'NRC' : '♡'}</div></div>
     <h2>${L(`Allow Nike Shoe Fit to read your ${src} activities?`, `Nike Shoe Fit erlauben, deine ${src}-Aktivitäten zu lesen?`)}</h2>
     <span class="badge dim">${L('Demo connection · no login, no real data access', 'Demo-Verbindung · kein Login, kein echter Datenzugriff')}</span>
     <div class="perm"><div>${L('Runs of the last 6 months (distance, pace, elevation)', 'Läufe der letzten 6 Monate (Distanz, Tempo, Höhenmeter)')}</div><div>${L('Surface and route type', 'Untergrund und Streckentyp')}</div><div>${L('Shoes logged with your runs', 'Bei Läufen erfasste Schuhe')}</div></div>
@@ -566,11 +567,17 @@ SCREENS.v_intro = {
         <div class="card hc">${ill('<circle cx="40" cy="14" r="5" fill="none" stroke="#d4ff00" stroke-width="2"/><path d="M40 20v14M40 24l-8 6M40 24l8 4M40 34l-8 12M40 34l9 11" stroke="#d4ff00" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M4 50h72" stroke="#555"/><path d="M14 30h10M10 36h10" stroke="#555" stroke-linecap="round"/>')}<div><b>2 · ${L('Run past, barefoot', 'Barfuß vorbeilaufen')}</b><span>${L('Your normal pace, 4–5 steps through the picture.', 'Dein normales Tempo, 4–5 Schritte durchs Bild.')}</span></div></div>
         <div class="card hc">${ill('<rect x="20" y="6" width="40" height="48" rx="4" fill="none" stroke="#d4ff00" stroke-width="2" stroke-dasharray="4 3"/><circle cx="40" cy="16" r="4" fill="#d4ff00"/><path d="M40 21v13l-6 12M40 34l6 12" stroke="#d4ff00" stroke-width="2" fill="none"/>')}<div><b>3 · ${L('Whole body in frame', 'Ganzer Körper im Bild')}</b><span>${L('Head to feet visible, good light, flat ground.', 'Kopf bis Füße sichtbar, gutes Licht, ebener Boden.')}</span></div></div>
       </div>
-      ${cta(`${navigator.mediaDevices?.getUserMedia ? `<button class="btn primary" data-act="record">● ${L('Record now', 'Jetzt aufnehmen')}</button>` : ''}
-        <label class="btn secondary" style="cursor:pointer">⇪ ${L('Upload a video', 'Video hochladen')}<input type="file" accept="video/*" class="visually-hidden" id="vidfile"></label>
+      <label class="consentrow"><input type="checkbox" id="vidconsent" ${state.videoConsent ? 'checked' : ''}><span>${L('I agree that my running video is analysed on this device only. It is not uploaded to a server or stored permanently, and I can delete it at any time.', 'Ich bin einverstanden, dass mein Laufvideo nur auf diesem Gerät analysiert wird. Es wird nicht auf einen Server hochgeladen oder dauerhaft gespeichert und ich kann es jederzeit löschen.')}</span></label>
+      ${cta(`${navigator.mediaDevices?.getUserMedia ? `<button class="btn primary" data-act="record" id="recstart" ${state.videoConsent ? '' : 'disabled'}>● ${L('Record now', 'Jetzt aufnehmen')}</button>` : ''}
+        <label class="btn secondary ${state.videoConsent ? '' : 'locked'}" id="vidlabel" style="cursor:pointer">⇪ ${L('Upload a video', 'Video hochladen')}<input type="file" accept="video/*" class="visually-hidden" id="vidfile" ${state.videoConsent ? '' : 'disabled'}></label>
         <button class="btn ghost" data-act="skipvideo">${L('Skip: estimate from my profile', 'Überspringen: aus Profil schätzen')}</button>`)}`;
   },
   mount() {
+    const cb = document.getElementById('vidconsent');
+    cb.addEventListener('change', () => { state.videoConsent = cb.checked; save(); logEvent('video-consent', { on: cb.checked });
+      const rb = document.getElementById('recstart'); if (rb) rb.disabled = !cb.checked;
+      document.getElementById('vidfile').disabled = !cb.checked; document.getElementById('vidlabel').classList.toggle('locked', !cb.checked); });
+    document.getElementById('vidlabel').addEventListener('click', e => { if (!state.videoConsent) { e.preventDefault(); toast(L('Please tick the data protection box first.', 'Bitte zuerst das Datenschutz-Häkchen setzen.')); } });
     document.getElementById('vidfile').addEventListener('change', e => { const file = e.target.files?.[0]; if (!file) return; setVideo(URL.createObjectURL(file)); logEvent('video', { how: 'upload' }); go('video', { local: { mode: 'analyzing' } }); });
   }
 };
@@ -1276,7 +1283,7 @@ document.addEventListener('click', async e => {
     case 'connect': startImport(t.dataset.src); break;
     case 'disconnect': state.imported = null; save(); logEvent('import-remove', {}); go('p_train'); break;
     case 'manual': logEvent('skip', { what: 'import' }); next(); break;
-    case 'record': go('video', { local: { mode: 'record' } }); break;
+    case 'record': if (!state.videoConsent) { toast(L('Please tick the data protection box first.', 'Bitte zuerst das Datenschutz-Häkchen setzen.')); break; } go('video', { local: { mode: 'record' } }); break;
     case 'recstart': recordNow(); break;
     case 'skipvideo': logEvent('skip', { what: 'video' }); setVideo(null); state.video = { status: 'done', mode: 'simulated', metrics: simulatedRunMetrics(), skipped: true }; save(); go('done2'); break;
     case 'retake': logEvent('retake', { what: 'video' }); state.video = { status: 'none', mode: null, metrics: null }; setVideo(null); save(); go('v_intro', { back: true }); break;
